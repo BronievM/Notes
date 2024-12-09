@@ -1,0 +1,402 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xct="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:Course"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime"
+        x:Name="MWindow" x:Class="Course.MainWindow" mc:Ignorable="d"    
+        Title="Notes" Height="625" Width="990" UseLayoutRounding="True"
+    AllowsTransparency="True" WindowStyle="None"    
+    Background="Transparent" Closing="Window_Closing"  WindowStartupLocation="CenterScreen" Foreground="Black" ResizeMode="NoResize" Closed="MWindow_Closed" Icon="/Theme/Icons/icons8-copybook-96.png">
+
+    <Border x:Name="MainBorder" Background="{DynamicResource CurrentMainColor}" CornerRadius="20" BorderBrush="Black" BorderThickness="0.6">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="27*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="203"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0*"/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="EditingPosition" CornerRadius="20, 20, 0, 0" Grid.ColumnSpan="2" Grid.Row="0" MouseDown="EditingPosition_MouseDown" ToolTip="Click to drag window" Background="#0C000000" Cursor="SizeAll"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="152" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Cursor="Hand">
+                <Image Source="/Theme/Icons/icons8-copybook-96.png" Stretch="Uniform" Width="50"/>
+                <Label Content="Notes" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="200">
+                    <RadioButton x:Name="HomeMenuItem" Style="{StaticResource MenuButtonTheme}" Height="60" Checked="HomeMenuItem_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Theme/Icons/icons8-create-96.png" Stretch="Uniform" Height="45"/>
+                            <Label Content="All notes" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton x:Name="AccountMenuItem" Style="{StaticResource MenuButtonTheme}" Height="60" Checked="AccountMenuItem_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Theme/Icons/icons8-male-user-96.png" Stretch="Uniform" Height="40"/>
+                            <Label Content="Account page" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="ArchiveNotesMenuItem" Style="{StaticResource MenuButtonTheme}" Height="60" Checked="ArchiveNotesMenuItem_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Theme/Icons/icons8-full-trash-96.png" Stretch="Uniform" Height="40"/>
+                            <Label Content="Archieved notes" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="SettingsMenuItem" Margin="0, 290, 0, 0" Style="{StaticResource MenuButtonTheme}" Height="60" Checked="SettingsMenuItem_Checked" Width="190">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Theme/Icons/icons8-settings-96.png" Stretch="Uniform" Height="40"/>
+                            <Label Content="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBox x:Name="name_NotesSearch" Style="{StaticResource TextBoxStyled}" Foreground="{DynamicResource CurrentTextColor}" Background="{DynamicResource CurrentAccentColor}" Tag="Type searched text, tag etc here" FontSize="16" VerticalContentAlignment="Center" Width="647" Cursor="IBeam" TextChanged="name_NotesSearch_TextChanged" Height="38"/>
+            </StackPanel>
+
+            <!-- Note listing window -->
+            <Viewbox x:Name="NoteWindow" Grid.Column="1" Grid.Row="1" Stretch="Uniform" Grid.ColumnSpan="2" Margin="0,0,0,30">
+                <Canvas x:Name="NoteCanvas" Height="580" Width="855" Background="White" MouseDown="ButtonClose_Click" IsVisibleChanged="EditWindow__IsVisibleChanged">
+
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="580" Width="855">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="113*"/>
+                            <RowDefinition Height="390*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="10,0,7,10"  Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                            <Label x:Name="Label_NameOfNotes" Content="Hi!" HorizontalAlignment="Left" FontSize="30" FontFamily="Tw Cen MT Condensed Extra Bold" Height="39"/>
+                            <Label x:Name="Label_Quote" Content="Hi!" FontFamily="Bahnschrift Light" />
+                            <StackPanel Margin="0, 2, 0, 0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <ComboBox x:Name="ComboSorting" Margin="10, 0, 0, 0" SelectedValue="Choose sorting method"  SelectionChanged="ComboSorting_SelectionChanged"  Width="180" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Text="Choose sorting method" ToolTip="How notes should be sorted?">
+                                    <ComboBoxItem Content="Sort by author (A-Z)" Tag="Author A-Z" />
+                                    <ComboBoxItem Content="Sort by author (Z-A)" Tag="Author Z-A" />
+                                    <ComboBoxItem Content="Sort by date (newest first)" Tag="Date (Newest first)" />
+                                    <ComboBoxItem Content="Sort by date (oldest first)" Tag="Date (Oldest first)" />
+                                    <ComboBoxItem Content="Sort by name (A-Z)" Tag="Name A-Z" />
+                                    <ComboBoxItem Content="Sort by name (Z-A)" Tag="Name Z-A" />
+                                    <ComboBoxItem Content="Sort by text (A-Z)" Tag="Text A-Z" />
+                                    <ComboBoxItem Content="Sort by text (Z-A)" Tag="Text Z-A" />
+                                </ComboBox>
+                                <Button x:Name="ButtonAddNote" Margin="15, 0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ButtonAddNote_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Theme/Icons/icons8-add-96.png" Stretch="Uniform" Width="40"/>
+                                        <Label Margin="1, 0, 0, 0" Content="Add new note" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Height="530">
+                            <ScrollViewer x:Name="ScrV" Height="450" Width="850" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" VerticalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
+                                <WrapPanel x:Name="Notes" Margin="10,10,10,10" Grid.Column="1" Background="Transparent" PreviewMouseDown="Notes_PreviewMouseDown" Grid.Row="1" Orientation="Horizontal" ItemWidth="197"/>
+                            </ScrollViewer>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="420">
+                            <ListView x:Name="NoteList" Grid.Column="1" Grid.Row="1" Height="410" Width="830" HorizontalAlignment="Center" VerticalAlignment="Center" PreviewMouseDoubleClick="NoteList_PreviewMouseDoubleClick" Background="Transparent" BorderBrush="{DynamicResource CurrentAccentColor}" Foreground="{DynamicResource CurrentTextColor}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                        </StackPanel>
+                    </Grid>
+                </Canvas>
+            </Viewbox>
+
+            <!-- Editing Page -->
+            <Viewbox x:Name="EditWindow" Grid.Column="1" Grid.Row="1" Stretch="UniformToFill" Visibility="Hidden" Margin="0,0,0,35">
+                <Canvas x:Name="EditCanvas" Height="613" Width="890" Background="White" IsVisibleChanged="EditWindow__IsVisibleChanged" Visibility="Visible">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Height="610" VerticalAlignment="Center" Width="890">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="858">
+                            <Label x:Name="Label_Edit" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Editing note" Height="51" FontSize="30" FontFamily="Tw Cen MT Condensed Extra Bold" Canvas.Left="10" Canvas.Top="14"/>
+                            <Button x:Name="DeleteNote" Margin="580, 0, 0, 0" Height="46" Width="51" Click="ItemDelete_Click" Canvas.Left="620" Canvas.Top="14" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand" ToolTip="Remove open note" Background="#00000000">
+                                <StackPanel>
+                                    <Image Source="/Theme/Icons/icons8-delete-96.png" Stretch="Uniform" Height="40"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="Close" Height="46" Width="51" Click="ButtonClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Hand" ToolTip="Save note">
+                                <StackPanel>
+                                    <Image Source="/Theme/Icons/icons8-save-96.png" Stretch="Uniform" Height="40"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <TextBox x:Name="name_Notes" Style="{StaticResource TextBoxStyled}" Tag="Enter name of note here" Height="30" TextWrapping="Wrap" Width="860" TextChanged="Name_Notes_TextChanged" FontSize="15" FontWeight="DemiBold" Cursor="IBeam" HorizontalAlignment="Center" MaxLength="26" MaxLines="1"/>
+                            <xct:RichTextBox x:Name="text_Notes" Style="{StaticResource RichTextBoxStyled}" Margin="0, 10, 0, 0" Foreground="{DynamicResource CurrentTextColor}" Width="860" Height="300" FontSize="15" TextChanged="Text_Note_TextChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <xct:RichTextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="EditingCommands.ToggleBold" CommandTarget="{Binding ElementName=text_Notes}" Header="Bold" FontWeight="Bold"/>
+                                        <MenuItem Command="EditingCommands.ToggleItalic" CommandTarget="{Binding ElementName=text_Notes}" Header="Italic" FontStyle="Italic"/>
+                                        <Separator/>
+                                        <MenuItem Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=text_Notes}" Header="Underline" FontWeight="Bold"/>
+                                        <MenuItem Command="EditingCommands.IncreaseFontSize" CommandTarget="{Binding ElementName=text_Notes}" Header="▴ Up font size" FontWeight="Bold"/>
+                                        <MenuItem Command="EditingCommands.DecreaseFontSize" CommandTarget="{Binding ElementName=text_Notes}" Header="▾ Down font size" FontWeight="Bold"/>
+                                        <Separator/>
+                                        <MenuItem Command="EditingCommands.ToggleBullets" CommandTarget="{Binding ElementName=text_Notes}" Header="● Make bullets" FontWeight="Bold"/>
+                                        <MenuItem Command="EditingCommands.ToggleNumbering" CommandTarget="{Binding ElementName=text_Notes}" Header="1. Make numbering" FontWeight="Bold"/>
+                                    </ContextMenu>
+                                </xct:RichTextBox.ContextMenu>
+                                <xct:RichTextBox.CommandBindings>
+                                    <CommandBinding Command="EditingCommands.ToggleBold"/>
+                                    <CommandBinding Command="EditingCommands.ToggleItalic"/>
+                                    <CommandBinding Command="EditingCommands.ToggleUnderline"/>
+                                    <CommandBinding Command="EditingCommands.IncreaseFontSize"/>
+                                    <CommandBinding Command="EditingCommands.DecreaseFontSize"/>
+                                    <CommandBinding Command="EditingCommands.ToggleBullets"/>
+                                    <CommandBinding Command="EditingCommands.ToggleNumbering"/>
+                                </xct:RichTextBox.CommandBindings>
+                            </xct:RichTextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 10, 0, 0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Label Content="Accessibility:" VerticalAlignment="Center" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="24"/>
+                                <Label Content="Global" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ToggleButton x:Name="PrivateCheck" Style="{DynamicResource ToggleButtonStyled}" Height="20" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="PrivateCheck_Click"/>
+                                <Label Content="Private" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Label Content="Notification:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="24"/>
+                                <xct:DateTimePicker x:Name="DatePickEv" TimePickerAllowSpin="False" AllowSpin="False" TimePickerShowButtonSpinner="False"  ShowButtonSpinner="False" Minimum="{x:Static System:DateTime.Today}" Foreground="{DynamicResource CurrentTextColor}" CultureInfo="uk-UA" Cursor="Hand" VerticalAlignment="Center" BorderBrush="{DynamicResource CurrentAccentColor}" Background="Transparent" Width="254" Height="24" Kind="Local" ToolTip="Choose time when notification will given" Text="Choose date of notification" ValueChanged="DatePickEv_ValueChanged"/>
+                                <Label Margin="20, 0, 0, 0" Content="On" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ToggleButton x:Name="MakeEvent" Style="{DynamicResource ToggleButtonStyled}" Height="20" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MakeEvent_Click"/>
+                                <Label Content="Off" Height="28" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Label FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="24" Content="Tags:" />
+                                <TextBox x:Name="txtTags" Style="{StaticResource TextBoxStyled}"  Width="330" KeyDown="txtTags_KeyDown" Tag="Enter tags here end press 'Enter' (separated by , or ;)" Height="25" />
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Margin="10, 0, 0 , 0" Click="AllTagsDel_Click" Width="123">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Theme/Icons/icons8-remove-tag-96.png" Stretch="Uniform" Width="20"/>
+                                            <Label Content="Remove all tags"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                            <Label x:Name="time_Notes" Margin="0, 20, 0, 0" Content="Date of creating note will be here" Canvas.Left="26" Canvas.Top="586" HorizontalAlignment="Left" VerticalAlignment="Center" Width="478"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Canvas>
+            </Viewbox>
+
+            <!-- Account window -->
+            <Viewbox x:Name="AccountWindow" Visibility="Hidden" Grid.Column="1" Grid.Row="1" Stretch="Uniform" Margin="0,0,0,42" Grid.ColumnSpan="2">
+                <Canvas Width="780" Height="487" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <StackPanel x:Name="AccountStackPanel" Background="{DynamicResource CurrentMainColor}" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="ButtonClose_Click" IsVisibleChanged="EditWindow__IsVisibleChanged" Height="490" Canvas.Left="10" Width="760">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                            <Label x:Name="Label_Account" Content="Account" FontSize="30" FontFamily="Tw Cen MT Condensed Extra Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="20, 0, 0, 0">
+                                <Ellipse Width="120" Height="120">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="/Theme/Icons/generic-profile-icon-23.jpg"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <StackPanel Margin="20, 0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                                    <Label x:Name="NameAcc_Label" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="25"/>
+                                    <Label Content="What's on your mind?" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    <Label x:Name="Label_Email" Content="Just log in your google account" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0, 20, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button x:Name="Account_ChangeBtt" Height="65" Click="AccountChangeBtt_Click" FontFamily="Tw Cen MT Condensed Extra Bold" VerticalAlignment="Top">
+                                    <StackPanel Margin="15, 0, 15, 0" Orientation="Horizontal">
+                                        <Image Source="/Theme/Icons/icons8-user-account-96.png" Stretch="Uniform" Height="40" HorizontalAlignment="Left"/>
+                                        <TextBlock Margin="10, 0, 0, 0" Text="Change account" TextAlignment="Center" FontSize="22" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <Button x:Name="Account_DeleteBtt" Margin="15, 0, 15, 0" Height="65"  Click="Account_DeleteBtt_Click" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="18" Canvas.Left="235" Canvas.Top="211" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <StackPanel Margin="15, 0, 15, 0" Orientation="Horizontal">
+                                        <Image Source="/Theme/Icons/icons8-denied-96.png" Stretch="Uniform" Height="40" HorizontalAlignment="Left"/>
+                                        <TextBlock Margin="10, 0, 0, 0" Text="Delete my account" FontSize="22" TextAlignment="Center"  VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="Account_Google_EE" Height="65" Width="230" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="18" Click="Account_Google_EE_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Theme/Icons/icons8-google-96.png" Stretch="Uniform" Height="40" HorizontalAlignment="Left"/>
+                                        <TextBlock Margin="10, 0, 0, 0" x:Name="AccGoogle_B_TextBlock" Text="Unconnect Google" TextAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Canvas>
+            </Viewbox>
+
+            <!-- Settings window -->
+            <Viewbox x:Name="SettingsWindow" Grid.Column="1" Grid.Row="1" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0,0,0,45" Visibility="Hidden">
+                <Canvas  Width="780" Height="487" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <StackPanel x:Name="SettingsStackPanel" Width="740" Background="{DynamicResource CurrentMainColor}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="484">
+                        <Label x:Name="Label_Settings" Margin="10, 10, 0, 0" Content="Settings" Height="50" FontSize="30" FontFamily="Tw Cen MT Condensed Extra Bold" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="12" VerticalAlignment="Center"/>
+                        <StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="5, 5, 0, 260">
+                                <StackPanel Margin="5" Orientation="Horizontal">
+                                    <Label Content="Theme:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+                                    <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
+                                        <Label Content="Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+                                        <ToggleButton x:Name="Settings_ThemeSw" Height="20" Width="40" Style="{StaticResource ToggleButtonStyled}" Click="Settings_ThemeSw_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Content="Dark" VerticalAlignment="Center" FontSize="14"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Margin="5, 10, 0, 0" Orientation="Horizontal">
+                                    <Label Content="View:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+                                    <StackPanel Margin="10, 5, 0, 0" Orientation="Horizontal">
+                                        <Label Content="Grid" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <ToggleButton x:Name="ChangeView" Style="{StaticResource ToggleButtonStyled}" Height="20" Width="40" Click="ChangeView_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Content="List" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15, 0, 0, 0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button x:Name="About_Btt" Height="59" Width="174" Click="About_Btt_Click" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Theme/Icons/icons8-about-96.png" Stretch="Uniform" Height="40" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="About program" TextAlignment="Center" Width="130" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="ConvertToPDF_Button" Margin="20, 0, 0, 0" Height="60" Width="180" FontFamily="Tw Cen MT Condensed Extra Bold" FontSize="18" Canvas.Left="224" Canvas.Top="498" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ConvertToPDF_Button_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Theme/Icons/icons8-pdf-96.png" Stretch="Uniform" Height="40" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="Convert to PDF" TextAlignment="Center" Width="130" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Canvas>
+            </Viewbox>
+
+            <!-- About window -->
+            <Border x:Name="AboutBorder" MouseDown="EditingPosition_MouseDown" Background="{DynamicResource CurrentMainColor}" CornerRadius="20" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Hidden">
+                <Viewbox Stretch="None">
+                    <Canvas Width="470" Height="228" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Margin="20,0,0,0" Source="/Theme/Icons/icons8-copybook-96.png"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label Content="Notes" FontWeight="SemiBold" FontStretch="Expanded" FontSize="36" HorizontalAlignment="Center"/>
+                                <Label Content="Created By Broniev" FontSize="24" HorizontalAlignment="Center"/>
+                                <Label Content="(Maxim Kulikov, CE-202)" FontSize="24" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Label Content="Version - "/>
+                                    <Label Content="0.2"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Button x:Name="OK_Button" Click="OK_Button_Click" Height="50">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Stretch="Uniform" Margin="5, 0, 0, 0" Source="/Theme/Icons/icons8-ok-96.png" />
+                                            <Label x:Name="Content_OK" Content="OK" Margin="0, 0, 10, 0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Canvas>
+                </Viewbox>
+            </Border>
+
+            <!-- Account Window -->
+            <Border x:Name="AccountBorder" MouseDown="EditingPosition_MouseDown" Background="{DynamicResource CurrentMainColor}" CornerRadius="20" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Viewbox Stretch="Uniform" Margin="10,10,10,10">
+                    <Canvas Width="760" Height="500">
+                        <StackPanel Orientation="Vertical" Background="{DynamicResource CurrentMainColor}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="497" Width="760">
+                            <ComboBox x:Name="Accounts_cmb" Height="20" Width="160" Margin="0, 70, 0, 30" SelectionChanged="Accounts_cmb_SelectionChanged"/>
+
+                            <Ellipse Height="100" Width="100" Stretch="Uniform">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="/Theme/Icons/generic-profile-icon-23.jpg" Stretch="Uniform"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+
+                            <Label Content="Login" Height="37" VerticalAlignment="Top" Width="58" FontSize="20" Margin="0, 10, 0, 10"/>
+
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBox x:Name="Account_Name_F" Margin="0,10,0,0" Style="{StaticResource TextBoxStyled}" ToolTip="Enter account name here" Height="30" TextWrapping="Wrap" Tag="Name" Width="160" FontSize="15" VerticalContentAlignment="Center" Cursor="IBeam" MaxLength="16" MaxLines="1"/>
+                                <xct:WatermarkPasswordBox x:Name="Account_Password_F" Margin="0,10,0,0" ToolTip="Enter your password here" Style="{StaticResource PasswordBoxStyled}" Watermark="Password" PasswordChar="*" Height="30" Width="160" FontSize="15" Cursor="IBeam" MaxLength="8"/>
+                            </StackPanel>
+
+                            <Button x:Name="EnterAccountButton" Margin="0, 10, 0, 0" Content="Enter to account" Foreground="{DynamicResource CurrentTextColor}" Height="50" Width="200" Click="Button_Click"/>
+                        </StackPanel>
+                    </Canvas>
+                </Viewbox>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="655,0,0,0" Width="123">
+                <Button x:Name="MinimizeButton" Margin="25, 0, 0, 0" Click="MinimizeButton_Click" ToolTip="Minimize program">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Theme/Icons/icons8-minimize-window-96.png" Stretch="Uniform" Width="40"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="ButtonClose" Margin="5, 0, 0, 0" Click="ButtonClosing_Click" ToolTip="Close program">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Theme/Icons/icons8-cancel-240.png" Stretch="Uniform" Width="40"/>
+                    </StackPanel>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                            <Setter Property="Background" Value="{DynamicResource Button.Background}"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{DynamicResource CurrentTextColor}"/>
+                            <Setter Property="BorderThickness"  Value="1"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="1"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                SnapsToDevicePixels="true" 
+                                CornerRadius="10,10,10,10" 
+                                Margin="0,0,0,0">
+                                            <ContentPresenter x:Name="contentPresenter" 
+                                              Focusable="False" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsFocused" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="Red"/>
+                                            </Trigger>
+                                            <Trigger Property="IsDefaulted" Value="true">
+                                                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter Property="Background" TargetName="border" Value="Red"/>
+                                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource CurrentAccentColor}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter Property="Background" TargetName="border"  Value="Red"/>
+                                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource CurrentAccentColor}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

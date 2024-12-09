@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Theme\Icons\icons8-copybook-96.ico</ApplicationIcon>
+    <TargetFrameworks></TargetFrameworks>
+    <AssemblyName>Notes</AssemblyName>
+    <Authors>Broniev</Authors>
+    <Copyright>Broniev</Copyright>
+    <Version>0.2</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="font book.png" />
+    <None Remove="generic-profile-icon-23.jpg" />
+    <None Remove="icons8-about-96.png" />
+    <None Remove="icons8-add-96.png" />
+    <None Remove="icons8-add-tag-96.png" />
+    <None Remove="icons8-cancel-240.png" />
+    <None Remove="icons8-copybook-96.png" />
+    <None Remove="icons8-create-96.png" />
+    <None Remove="icons8-delete-96.png" />
+    <None Remove="icons8-delete-document-96.png" />
+    <None Remove="icons8-denied-96.png" />
+    <None Remove="icons8-drag-96.png" />
+    <None Remove="icons8-full-trash-96.png" />
+    <None Remove="icons8-google-96.png" />
+    <None Remove="icons8-male-user-96.png" />
+    <None Remove="icons8-minimize-window-96.png" />
+    <None Remove="icons8-note-96_1.ico" />
+    <None Remove="icons8-pdf-96.png" />
+    <None Remove="icons8-remove-tag-96.png" />
+    <None Remove="icons8-save-96.png" />
+    <None Remove="icons8-settings-96.png" />
+    <None Remove="icons8-shredder-96.png" />
+    <None Remove="icons8-user-account-96.png" />
+    <None Remove="Theme\Icons\icons8-pdf-96.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Theme\Icons\icons8-copybook-96.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.60.0.3017" />
+    <PackageReference Include="Google.Apis.Core" Version="1.60.0" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.60.0.3035" />
+    <PackageReference Include="Google.Apis.PeopleService.v1" Version="1.60.0.2924" />
+    <PackageReference Include="itext7" Version="7.2.5" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Theme\Icons\generic-profile-icon-23.jpg" />
+    <Resource Include="Theme\Icons\icons8-about-96.png" />
+    <Resource Include="Theme\Icons\icons8-add-96.png" />
+    <Resource Include="Theme\Icons\icons8-add-tag-96.png" />
+    <Resource Include="Theme\Icons\icons8-cancel-240.png" />
+    <Resource Include="Theme\Icons\icons8-copybook-96.png" />
+    <Resource Include="Theme\Icons\icons8-create-96.png" />
+    <Resource Include="Theme\Icons\icons8-delete-96.png" />
+    <Resource Include="Theme\Icons\icons8-delete-document-96.png" />
+    <Resource Include="Theme\Icons\icons8-denied-96.png" />
+    <Resource Include="Theme\Icons\icons8-drag-96.png" />
+    <Resource Include="Theme\Icons\icons8-full-trash-96.png" />
+    <Resource Include="Theme\Icons\icons8-google-96.png" />
+    <Resource Include="Theme\Icons\icons8-male-user-96.png" />
+    <Resource Include="Theme\Icons\icons8-minimize-window-96.png" />
+    <Resource Include="Theme\Icons\icons8-note-96_1.ico" />
+    <Resource Include="Theme\Icons\icons8-pdf-96.png" />
+    <Resource Include="Theme\Icons\icons8-remove-tag-96.png" />
+    <Resource Include="Theme\Icons\icons8-save-96.png" />
+    <Resource Include="Theme\Icons\icons8-settings-96.png" />
+    <Resource Include="Theme\Icons\icons8-shredder-96.png" />
+    <Resource Include="Theme\Icons\icons8-user-account-96.png" />
+    <Resource Include="Theme\Icons\icons8-ok-96.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
