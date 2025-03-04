@@ -20,8 +20,8 @@ namespace Course.Classes
         {
             try
             {
-                string clientId = "862695472124-a2hhde3qq97nn5gm1eirhfjui0caq877.apps.googleusercontent.com";
-                string clientSecret = "";
+                string clientId = "ur client ID";
+                string clientSecret = "There should be ur secret ID, i dont wanna to share it sorry"; 
                 string[] scopes = { CalendarService.Scope.Calendar, "https://www.googleapis.com/auth/userinfo.profile", GmailService.Scope.GmailReadonly };
 
                 credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
