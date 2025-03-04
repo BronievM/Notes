@@ -18,8 +18,8 @@ This is my course project, created during my studies at Khmelnytskyi Polytechnic
 
 ## Screenshots  
 
-- ![Main Window (Light Mode)](/img/Main-Window-White.png)  
-- ![Main Window (Dark Mode)](/img/Main-Window-Black.png)  
-- ![Editing Window (Dark Mode)](/img/Editing-Window-Dark.png)  
-- ![About Window (Dark Mode)](/img/About-Dark.png)  
-- ![Result](/img/Result.jpg)  
+![Main Window (Light Mode)](/img/Main-Window-White.png)  
+![Main Window (Dark Mode)](/img/Main-Window-Dark.png)  
+![Editing Window (Dark Mode)](/img/Editing-Window-Dark.png)  
+![About Window (Dark Mode)](/img/About-Dark.png)  
+![Result](/img/Result.jpg)  
