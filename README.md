@@ -1,25 +1,48 @@
-# Notes – Course Project  
+# 📝 Notes – Course Project (Legacy)
 
-This is my course project, created during my studies at Khmelnytskyi Polytechnic College.  
+> **Status:** [ARCHIVED] This project is complete and will not receive further updates.  
+> **Institution:** Khmelnytskyi Polytechnic Applied College (2023)  
+> **Student:** Maksym Kulikov (Group KI-202)  
+| **Stack:** C# / .NET (WPF) | **Supervisor:** S.V. Shchutskyi |
 
-## About the Program  
+---
 
-**Notes** is an application that allows you to conveniently store all necessary records in one place and send notifications to your phone if needed (unfortunately, in this version, notifications do not work perfectly).  
+## 🚀 Project Overview
 
-## Key Features  
+**Notes** is a legacy desktop application developed as a final project for the Object-Oriented Programming course. It features a modern UI/UX design implemented via WPF, focused on local note organization and management.
 
-- Modern and simple user interface  
-- Easy to use  
+### ✨ Key Features
+- **Modern UI:** Minimalist design with custom XAML styling.
+- **Theme Support:** Native Light and Dark modes.
+- **Local Storage:** Efficient handling of records on the local machine.
+- **Beta Features:** Experimental mobile notification logic (non-functional in this version).
 
-## Limitations  
+### 🛠 Technical Specs
+- **Platform:** Windows 10+ (Desktop)
+- **Framework:** .NET / WPF
+- **Language:** C#
 
-- The application cannot run on PCs with an operating system older than Windows 10  
-- Competing applications offer cloud storage, which helps them gain more downloads  
+---
 
-## Screenshots  
+## 🖼 Interface Gallery
 
-![Main Window (Light Mode)](/img/Main-Window-White.png)  
-![Main Window (Dark Mode)](/img/Main-Window-Dark.png)  
-![Editing Window (Dark Mode)](/img/Editing-Window-Dark.png)  
-![About Window (Dark Mode)](/img/About-Dark.png)  
-![Result](/img/Result.jpg)  
+<p align="center">
+  <img src="./img/Main-Window-White.png" width="400" alt="Light Mode" />
+  <img src="./img/Main-Window-Dark.png" width="400" alt="Dark Mode" />
+</p>
+
+| Editing View | Documentation | Final Build |
+|:---:|:---:|:---:|
+| ![Editing](./img/Editing-Window-Dark.png) | ![About](./img/About-Dark.png) | ![Result](./img/Result.jpg) |
+
+---
+
+## ⚠️ Notes for Developers
+* **Operating System:** This application is strictly optimized for Windows 10/11. Legacy support was not a goal for this version.
+* **Data:** All notes are stored locally; no cloud sync is implemented.
+* **Maintenance:** No future updates or bug fixes are planned for this repository.
+
+---
+
+## ⚖️ Academic Integrity
+Shared for educational and portfolio demonstration purposes only. Redistribution or submission of this project as your own academic work is strictly prohibited.
